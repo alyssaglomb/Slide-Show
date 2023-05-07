@@ -1,0 +1,117 @@
+---
+title: "Political Violence in Nigeria"
+subtitle: "Data Analysis Presentation"
+author: "Alyssa Glomb"
+institute: "American University, SIS 750"
+date: "Spring 2023"
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    lib_dir: libs
+    css: [default, metropolis, rladies-fonts]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+htmltools.dir.version = TRUE, echo=TRUE, fig.width = 14, fig.asp = 0.698, 
+        fig.align = 'center', out.width = "85%")
+
+library(tidyverse)
+library(knitr)
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(magrittr)
+library(forcats)
+
+```
+
+# Data Background
+
+- The following information was compiled from the Electoral Contention and Violence (ECAV) dataset. 
+- The data was derived from media reports of events and all actions involve violence or protests that are related to elections and politics. 
+- The full ECAV dataset was compiled based on events in 136 countries between 1990 and 2012 and includes 39 variables. 
+- I am using a subset of the database for this presentation. This analysis is based on the data collected in Nigeria, which has 334 observations of violent events for the variables I analyzed.  
+
+&nbsp;  
+
+<small>
+Data Citation:  
+
+Daxecker, Ursula E., Elio Amicarelli and Alexander Jung. 2019. “Electoral Contention and Violence (ECAV): A New Dataset” Journal of Peace Research 56(5): 714-723. https://doi.org/10.1177/0022343318823870
+
+Daxecker, Ursula E., Elio Amicarelli and Alexander Jung. 2019. “Electoral Contention and Violence (ECAV) Codebook.”
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+</small>
+
+---
+#Forms of Conflict
+##Nigeria
+
+```{r, echo=FALSE, warning=FALSE}
+
+nigeria1 = read_excel("ECAV-nigeria.xlsx")
+
+nigeria = nigeria1 %>% 
+  filter(complete.cases(EventName, Actor1Type, Actor1Side))
+
+ p1= nigeria %>%
+   ggplot(aes(x = fct_infreq(EventName)))+
+   geom_bar()+
+   scale_y_continuous(trans = 'log10')+
+   labs(x="Event Type", 
+         y="Number of Occurrences",
+         title='')+
+   theme_light()+
+    theme(axis.text = element_text(size =12, face='bold'))+
+    theme(axis.title = element_text(size =18, face='bold'))
+  
+  print(p1)
+
+```
+
+---
+#Pro- and Anti-Government Actors
+##Nigeria
+```{r, echo=FALSE, warning=FALSE}
+
+ nigeria %<>% mutate(
+    ActorNew = case_when(
+      Actor1Type == 1 ~ 'State',
+      Actor1Type == 2 ~ 'Citizens',
+      Actor1Type == 3 ~ 'Party',
+      Actor1Type == 4 ~ 'Militia',
+      Actor1Type == 5 ~ 'NA'))
+
+  nigeria %<>% mutate(
+    SideNew = case_when(
+      Actor1Side == 1 ~ 'Anti-Government',
+      Actor1Side == 0 ~ 'Pro-Government'))
+  
+  p2 = nigeria %>%
+   ggplot(aes(x = ActorNew, y = ..count..))+
+   geom_bar(aes(fill = ActorNew), show.legend = FALSE)+
+   facet_wrap(~SideNew)+
+   scale_y_continuous(trans = 'log10')+
+   labs(x="Actor Type", 
+         y="Number of Events",
+         title='')+
+    theme_light()+
+    theme(axis.text = element_text(size =14, face='bold'))+
+    theme(axis.title = element_text(size =18, face='bold'))+
+    theme(strip.text = element_text(face = 'bold', size = rel(2)))
+  
+  print(p2)
+  
+```
+
+
+
