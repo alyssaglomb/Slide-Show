@@ -8,4 +8,4 @@ Daxecker, Ursula E., Elio Amicarelli and Alexander Jung. 2019. “Electoral Cont
 
 Daxecker, Ursula E., Elio Amicarelli and Alexander Jung. 2019. “Electoral Contention and Violence (ECAV) Codebook.”
 
-file:///Users/alyssa/Desktop/Data%20Analysis%20-%20SIS%20750/portfolio/index.html#1
+[Link to project](file:///Users/alyssa/Desktop/Data%20Analysis%20-%20SIS%20750/portfolio/index.html#1)
