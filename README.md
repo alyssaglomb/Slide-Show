@@ -1,4 +1,4 @@
-# Slide-Show
+# Slide Show
 
 This is a slide presentation about political violence in Nigeria created using `Xaringan` in `R Markdown`. This was a project for a data analysis class at American University in Spring 2023.
 
